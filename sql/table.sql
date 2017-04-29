@@ -16,8 +16,9 @@ CREATE TABLE `hello_users` (
 -- DROP TABLE IF EXISTS hello_applications;
 CREATE TABLE `hello_applications` (
   `application_id` VARCHAR(255) NOT NULL COMMENT 'Application ID',
-  `application_secret` VARCHAR(255) NOT NULL COMMENT 'Token ISP',
-  `application_name` VARCHAR(255) NOT NULL COMMENT 'Token IP Address',
+  `application_key` VARBINARY(255) NOT NULL COMMENT 'Application Key',
+  `application_secret` VARCHAR(255) NOT NULL COMMENT 'Application Secret',
+  `application_name` VARCHAR(255) NOT NULL COMMENT 'Application Name',
   PRIMARY KEY (`application_id`)
 );
 

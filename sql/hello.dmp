@@ -1,0 +1,169 @@
+-- MySQL dump 10.16  Distrib 10.1.13-MariaDB, for Win32 (AMD64)
+--
+-- Host: localhost    Database: awesome_hello
+-- ------------------------------------------------------
+-- Server version	10.1.13-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `hello_applications`
+--
+
+DROP TABLE IF EXISTS `hello_applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_applications` (
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `application_key` varbinary(255) NOT NULL COMMENT 'Application Key',
+  `application_secret` varchar(255) NOT NULL COMMENT 'Application Secret',
+  `application_name` varchar(255) NOT NULL COMMENT 'Application Name',
+  PRIMARY KEY (`application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_applications`
+--
+
+LOCK TABLES `hello_applications` WRITE;
+/*!40000 ALTER TABLE `hello_applications` DISABLE KEYS */;
+INSERT INTO `hello_applications` VALUES ('6C1BC652-DE0A-7D6C-88E3-E49810332F3B','ABF86FE1-ED7A-CED9-A9C1-DED1433261E2','25A89AE9-7E24-8584-C289-F142D66764F0','54BA33F0-48DF-83CF-33E1-E522DFBE3206');
+/*!40000 ALTER TABLE `hello_applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_rates`
+--
+
+DROP TABLE IF EXISTS `hello_rates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_rates` (
+  `rate_id` varchar(255) NOT NULL COMMENT 'Rate ID',
+  `rate_code` varchar(255) NOT NULL COMMENT 'Rate code',
+  `rate_name` varchar(255) NOT NULL COMMENT 'Rate bucket name',
+  `rate_counts` int(10) unsigned NOT NULL COMMENT 'Total number of Tokens allowed',
+  `rate_seconds` int(10) unsigned NOT NULL COMMENT 'Rate timing in Seconds',
+  PRIMARY KEY (`rate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_rates`
+--
+
+LOCK TABLES `hello_rates` WRITE;
+/*!40000 ALTER TABLE `hello_rates` DISABLE KEYS */;
+INSERT INTO `hello_rates` VALUES ('010A7D62-26F0-E584-5BFD-6DBB2BC9B69B','R2','15 tokens per minute',5,20),('4702303F-4FD6-AFC4-7E75-2F35CC4D45B8','R7','333 tokens per minute',1000,180),('769CD92C-9F3A-C024-3F3E-B3EBABF2CB10','R6','200 tokens per minute',400,120),('79B28512-A6D0-8E23-C49A-3C1A1C211190','R3','40 tokens per minute',20,30),('99C6EA79-0C1E-3356-18F1-33BDB15DC85C','R5','100 tokens per minute',100,60),('A0067542-162B-DAFC-510B-07BE4DFCE11D','R1','6 tokens per minute',1,10),('F6B74A4B-3653-7F46-A439-F2E41E44CB17','R4','53 tokens per minute',40,45);
+/*!40000 ALTER TABLE `hello_rates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_tokens`
+--
+
+DROP TABLE IF EXISTS `hello_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_tokens` (
+  `token_id` varchar(255) NOT NULL COMMENT 'Token ID/Code',
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `token_ip` varchar(255) NOT NULL COMMENT 'Token IP Address',
+  `token_isp` varchar(255) NOT NULL COMMENT 'Token ISP',
+  `created_on` datetime NOT NULL COMMENT 'Created On',
+  `expires_on` datetime NOT NULL COMMENT 'Validity',
+  PRIMARY KEY (`token_id`),
+  KEY `application_id` (`application_id`),
+  CONSTRAINT `hello_tokens_token_id` FOREIGN KEY (`application_id`) REFERENCES `hello_applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_tokens`
+--
+
+LOCK TABLES `hello_tokens` WRITE;
+/*!40000 ALTER TABLE `hello_tokens` DISABLE KEYS */;
+INSERT INTO `hello_tokens` VALUES ('04D1F429-7670-CEB9-4416-17DCFB372E1C','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 11:27:38','2017-04-29 11:32:38'),('0CDE67C0-B0BF-426C-F460-2E5C70F80DDD','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 22:35:27','2017-04-28 22:40:27'),('0DE8BDDE-A06F-79E7-F3CF-96CDA7921951','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:17:23','2017-04-28 20:22:23'),('0FEF80D6-1792-4C00-D73A-793435CEE943','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:17:50','2017-04-28 20:22:50'),('10A982DF-191D-1242-51EE-AEB77C2BCC93','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-28 22:35:41','2017-04-28 22:40:41'),('1896ADB5-83D2-6236-5B97-22F8F64FB866','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:54:54','2017-04-28 20:59:54'),('1EB27C55-1F80-311E-B25B-630579593F31','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 11:26:50','2017-04-29 11:31:50'),('231C41B3-34CD-A1EF-5E48-CAE1A7943359','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:17:51','2017-04-28 20:22:51'),('29609F33-EDE2-AE17-6ED2-566A68C0E495','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-28 22:35:10','2017-04-28 22:40:10'),('321A170F-FDE9-9CB1-7840-E4DACCD4F55A','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-28 22:35:42','2017-04-28 22:40:42'),('44980FD6-FA10-B342-F2BB-DDF3A9B63934','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 10:50:45','2017-04-29 10:55:45'),('4BA62F44-B6CE-EF5E-9753-C12BD55812F8','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-28 22:35:42','2017-04-28 22:40:42'),('713E6EF2-BE0C-9B05-90AD-8C9374C0CD86','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-28 22:35:43','2017-04-28 22:40:43'),('87EBDCE7-86B8-BC4B-937A-BB4A53698CD3','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:23:29','2017-04-28 20:28:29'),('8F7AB138-7F9A-6CCE-58E1-C88A0772CA1B','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:54:56','2017-04-28 20:59:56'),('9D88DB80-271A-6E33-13EB-9406EA2A871B','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 10:50:48','2017-04-29 10:55:48'),('A05E4DCD-673C-9C71-0077-97AE906C89A4','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:23:24','2017-04-28 20:28:24'),('ABF86FE1-ED7A-CED9-A9C1-DED1433261E2','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 10:50:48','2017-04-29 10:55:48'),('CACCC34A-F1E6-FA5E-5975-25DAC5FD0A44','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:23:28','2017-04-28 20:28:28'),('E46FC48D-8DB4-6209-ACDE-1107E755B197','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 20:17:51','2017-04-28 20:22:51'),('E624972F-18FB-6BE9-991A-E6A5E35588C8','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','0.0.0.0','a.ads1.msn.com','2017-04-29 10:50:47','2017-04-29 10:55:47'),('F39C41E3-AFDD-891C-59D9-EE5D839FA774','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','127.0.0.1','api.example.com','2017-04-28 22:35:27','2017-04-28 22:40:27');
+/*!40000 ALTER TABLE `hello_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_users`
+--
+
+DROP TABLE IF EXISTS `hello_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_users` (
+  `user_id` varchar(255) NOT NULL COMMENT 'User ID',
+  `user_username` varchar(255) NOT NULL COMMENT 'Unique User Name',
+  `user_password` varchar(255) NOT NULL COMMENT 'User Password',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_users`
+--
+
+LOCK TABLES `hello_users` WRITE;
+/*!40000 ALTER TABLE `hello_users` DISABLE KEYS */;
+INSERT INTO `hello_users` VALUES ('FB9F33F8-5F6E-4EA9-0754-AE809B536B67','E0FD27BF-4C3A-6295-2C2C-28025ABCF24F','3FBF36FD-4E31-403B-F6CB-DD8878757CA7');
+/*!40000 ALTER TABLE `hello_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_users_applications`
+--
+
+DROP TABLE IF EXISTS `hello_users_applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_users_applications` (
+  `user_id` varchar(255) NOT NULL COMMENT 'User ID',
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `rate_id` varchar(255) NOT NULL COMMENT 'Rate ID',
+  `created_on` datetime NOT NULL COMMENT 'Created On',
+  `expires_on` datetime NOT NULL COMMENT 'Validity',
+  PRIMARY KEY (`user_id`,`application_id`),
+  KEY `application_id` (`application_id`),
+  CONSTRAINT `hello_users_applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `hello_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `hello_users_applications_ibfk_2` FOREIGN KEY (`application_id`) REFERENCES `hello_applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_users_applications`
+--
+
+LOCK TABLES `hello_users_applications` WRITE;
+/*!40000 ALTER TABLE `hello_users_applications` DISABLE KEYS */;
+INSERT INTO `hello_users_applications` VALUES ('FB9F33F8-5F6E-4EA9-0754-AE809B536B67','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','A0067542-162B-DAFC-510B-07BE4DFCE11D','2017-04-28 19:45:46','2017-05-05 19:45:46');
+/*!40000 ALTER TABLE `hello_users_applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'awesome_hello'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-04-29 11:35:41
