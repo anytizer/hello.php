@@ -55,3 +55,13 @@ Output
     );
 
 For details, see `database/hello.dmp`
+
+
+# Proudly made with:
+
+ * [PHPStorm](https://www.jetbrains.com/phpstorm/)
+ * [Notepad++](https://notepad-plus-plus.org/)
+ * [SQLYog Community Edition](https://github.com/webyog/sqlyog-community/wiki/Downloads)
+ * [DbSchema](http://www.dbschema.com/)
+ * [MariaDB via XAMPP](https://www.apachefriends.org/index.html)
+ * [LightShot](https://app.prntscr.com/en/index.html)

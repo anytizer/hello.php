@@ -3,16 +3,10 @@ namespace tests;
 use common\hello;
 use PHPUnit\Framework\TestCase;
 
-class HelloTest extends TestCase
+class HelloApplicationTest extends TestCase
 {
 	public function setup()
 	{
-	}
-
-	public function testCreateUser()
-	{
-		$hello = new hello();
-		$hello->create_user();
 	}
 
 	public function testCreateApplication()
@@ -25,11 +19,5 @@ class HelloTest extends TestCase
 	{
 		$hello = new hello();
 		$hello->create_application_user();
-	}
-	
-	public function testCreateToken()
-	{
-		$hello = new hello();
-		$hello->create_applicaton_token();
 	}
 }
