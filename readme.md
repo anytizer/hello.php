@@ -2,14 +2,15 @@
 
 Creates a token for registered API Consumers for first time use.
 
-Required $_POST Parameters:
+Application status: Work in progress; do not clone.
+
+Required `$_POST` Parameters:
 
  * Consumer Key (Software's internal username)
  * Consumer Secret (Software's Internal Password)
 
-## Token Usage management
 
-(Work in progress)
+## Token Usage management
 
  * Create User: `hello user USER_ID`
  * Create Application: `hello application USER_ID APPLICATION_ID`
@@ -21,38 +22,36 @@ Required $_POST Parameters:
 
 ## JSON Output Examples
 
-    curl http://hello.example.com:9090/
-    curl --data "id=ID001&key=KEY001" http://hello.example.com:9090/
+On Success
+
+    curl --data "key=F9961804-61C5-667C-DDD9-B765147630D2&secret=9F522AA0-A59A-A21A-11A3-EBC6C4A847BA" http://hello.example.com:9090/hello.php
+
+Output
+
+    {"status":true,"data":{"token":"8010C186-DD34-A2B3-8D13-8EAFB8549011"}}
 
 
-### From PHP variables only
+On Error
 
-DO NOT use it.
+    curl http://hello.example.com:9090/hello.php
+	
+Output
 
-    {"token_id":"F906C98C-B10E-2F69-E0F5-B1BC99C28DDD","token_ip":"0.0.0.0","token_isp":"ISP Name"}
-
-### From database lookup
-
-DO NOT use it.
-
-    {"token_id":"A3982D83-D3F6-EB30-FE6C-83C23C30971D","token_ip":"127.0.0.1","token_isp":"api.example.com","created_on":"2017-04-27 21:13:58","expires_on":"2017-04-27 21:18:58"}
-
-
-### Minified with DTO
-
-Use it.
-
-    {"status":true,"data":{"id":"E46FC48D-8DB4-6209-ACDE-1107E755B197","ip":"127.0.0.1","isp":"api.example.com","created":"2017-04-28 20:17:51","expires":"2017-04-28 20:22:51"}}
+	{"status":false,"data":{"error":"Not found"}}
 
 
 ## Table Structure
 
     CREATE TABLE `hello_tokens` (
-      `token_id` VARCHAR(255) NOT NULL COMMENT 'Token ID/Code',
-	  `application_id` VARCHAR(255) NOT NULL COMMENT 'Application ID',
-      `token_ip` VARCHAR(255) NOT NULL COMMENT 'Token IP Address',
-      `token_isp` VARCHAR(255) NOT NULL COMMENT 'Token ISP',
-      `created_on` DATETIME NOT NULL COMMENT 'Created On',
-      `expires_on` DATETIME NOT NULL COMMENT 'Validity',
+      `token_id` varchar(255) NOT NULL COMMENT 'Token ID',
+      `consumer_id` varchar(255) NOT NULL COMMENT 'Consumer ID',
+      `token_ip` varchar(255) NOT NULL COMMENT 'Token IP Address',
+      `token_isp` varchar(255) NOT NULL COMMENT 'Token ISP',
+      `created_on` datetime NOT NULL COMMENT 'Created On',
+      `expires_on` datetime NOT NULL COMMENT 'Validity',
       PRIMARY KEY (`token_id`),
+      KEY `consumer_id` (`consumer_id`),
+      CONSTRAINT `hello_tokens_ibfk_1` FOREIGN KEY (`consumer_id`) REFERENCES `hello_consumers` (`consumer_id`) ON DELETE CASCADE ON UPDATE CASCADE
     );
+
+For details, see `database/hello.dmp`

@@ -8,6 +8,9 @@
 			<column name="application_name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
 				<comment><![CDATA[Application Name]]></comment>
 			</column>
+			<column name="application_secret" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Application Secret]]></comment>
+			</column>
 			<index name="pk_hello_applications" unique="PRIMARY_KEY" >
 				<column name="application_id" />
 			</index>
@@ -63,7 +66,10 @@
 		</table>
 		<table name="hello_tokens" >
 			<column name="token_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
-				<comment><![CDATA[Token ID/Code]]></comment>
+				<comment><![CDATA[Token ID]]></comment>
+			</column>
+			<column name="consumer_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Consumer ID]]></comment>
 			</column>
 			<column name="token_ip" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
 				<comment><![CDATA[Token IP Address]]></comment>
@@ -77,7 +83,6 @@
 			<column name="expires_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
 				<comment><![CDATA[Validity]]></comment>
 			</column>
-			<column name="consumer_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
 			<index name="pk_hello_tokens" unique="PRIMARY_KEY" >
 				<column name="token_id" />
 			</index>
@@ -163,10 +168,10 @@
 	<layout name="Default Layout" id="Layout_2449333" show_relation="columns" >
 		<entity schema="awesome_hello" name="hello_users" color="bfd4f5" x="255" y="45" />
 		<entity schema="awesome_hello" name="hello_rates" color="bfd4f5" x="405" y="255" />
-		<entity schema="awesome_hello" name="hello_tokens" color="c8f5bf" x="45" y="480" />
 		<entity schema="awesome_hello" name="hello_tokens_usages" color="c8f5bf" x="240" y="480" />
 		<entity schema="awesome_hello" name="hello_users_applications" color="bfd4f5" x="180" y="255" />
 		<entity schema="awesome_hello" name="hello_applications" color="c8f5bf" x="90" y="45" />
+		<entity schema="awesome_hello" name="hello_tokens" color="c8f5bf" x="45" y="480" />
 		<entity schema="awesome_hello" name="hello_consumers" color="c1d8ee" x="45" y="255" />
 	</layout>
 	<layout name="Sample Layout with Groups" id="Layout_4b23509" show_relation="columns" >

@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `hello_applications`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hello_applications` (
   `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `application_secret` varchar(255) NOT NULL COMMENT 'Application Secret',
   `application_name` varchar(255) NOT NULL COMMENT 'Application Name',
   PRIMARY KEY (`application_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -35,7 +36,7 @@ CREATE TABLE `hello_applications` (
 
 LOCK TABLES `hello_applications` WRITE;
 /*!40000 ALTER TABLE `hello_applications` DISABLE KEYS */;
-INSERT INTO `hello_applications` VALUES ('6C1BC652-DE0A-7D6C-88E3-E49810332F3B','Test Application Name');
+INSERT INTO `hello_applications` VALUES ('6C1BC652-DE0A-7D6C-88E3-E49810332F3B','6C1BC652-DE0A-7D6C-88E3-E49810332F3C','Test Application Name');
 /*!40000 ALTER TABLE `hello_applications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -47,12 +48,13 @@ DROP TABLE IF EXISTS `hello_consumers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hello_consumers` (
-  `consumer_id` varchar(255) NOT NULL,
-  `application_id` varchar(255) NOT NULL,
-  `consumer_name` varchar(255) NOT NULL,
-  `consumer_key` varchar(255) NOT NULL,
-  `consumer_secret` varchar(255) NOT NULL,
+  `consumer_id` varchar(255) NOT NULL COMMENT 'Consumer ID',
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `consumer_key` varchar(255) NOT NULL COMMENT 'Consumer Key',
+  `consumer_secret` varchar(255) NOT NULL COMMENT 'Consumer Secret',
+  `consumer_name` varchar(255) NOT NULL COMMENT 'Consumer Identifier Name',
   PRIMARY KEY (`consumer_id`),
+  UNIQUE KEY `consumer_key` (`consumer_key`),
   KEY `application_id` (`application_id`),
   CONSTRAINT `hello_consumers_ibfk_1` FOREIGN KEY (`application_id`) REFERENCES `hello_applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -64,6 +66,7 @@ CREATE TABLE `hello_consumers` (
 
 LOCK TABLES `hello_consumers` WRITE;
 /*!40000 ALTER TABLE `hello_consumers` DISABLE KEYS */;
+INSERT INTO `hello_consumers` VALUES ('84DEAA52-2ACF-22F1-6943-55985444DB19','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','F9961804-61C5-667C-DDD9-B765147630D2','9F522AA0-A59A-A21A-11A3-EBC6C4A847BA','Web API');
 /*!40000 ALTER TABLE `hello_consumers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,8 +105,8 @@ DROP TABLE IF EXISTS `hello_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hello_tokens` (
-  `token_id` varchar(255) NOT NULL COMMENT 'Token ID/Code',
-  `consumer_id` varchar(255) NOT NULL,
+  `token_id` varchar(255) NOT NULL COMMENT 'Token ID',
+  `consumer_id` varchar(255) NOT NULL COMMENT 'Consumer ID',
   `token_ip` varchar(255) NOT NULL COMMENT 'Token IP Address',
   `token_isp` varchar(255) NOT NULL COMMENT 'Token ISP',
   `created_on` datetime NOT NULL COMMENT 'Created On',
@@ -219,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-27 19:50:59
+-- Dump completed on 2017-05-28 12:01:31
