@@ -1,0 +1,222 @@
+-- MySQL dump 10.16  Distrib 10.1.13-MariaDB, for Win32 (AMD64)
+--
+-- Host: localhost    Database: awesome_hello
+-- ------------------------------------------------------
+-- Server version	10.1.13-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `hello_applications`
+--
+
+DROP TABLE IF EXISTS `hello_applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_applications` (
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `application_name` varchar(255) NOT NULL COMMENT 'Application Name',
+  PRIMARY KEY (`application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_applications`
+--
+
+LOCK TABLES `hello_applications` WRITE;
+/*!40000 ALTER TABLE `hello_applications` DISABLE KEYS */;
+INSERT INTO `hello_applications` VALUES ('6C1BC652-DE0A-7D6C-88E3-E49810332F3B','Test Application Name');
+/*!40000 ALTER TABLE `hello_applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_consumers`
+--
+
+DROP TABLE IF EXISTS `hello_consumers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_consumers` (
+  `consumer_id` varchar(255) NOT NULL,
+  `application_id` varchar(255) NOT NULL,
+  `consumer_name` varchar(255) NOT NULL,
+  `consumer_key` varchar(255) NOT NULL,
+  `consumer_secret` varchar(255) NOT NULL,
+  PRIMARY KEY (`consumer_id`),
+  KEY `application_id` (`application_id`),
+  CONSTRAINT `hello_consumers_ibfk_1` FOREIGN KEY (`application_id`) REFERENCES `hello_applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_consumers`
+--
+
+LOCK TABLES `hello_consumers` WRITE;
+/*!40000 ALTER TABLE `hello_consumers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hello_consumers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_rates`
+--
+
+DROP TABLE IF EXISTS `hello_rates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_rates` (
+  `rate_id` varchar(255) NOT NULL COMMENT 'Rate ID',
+  `rate_code` varchar(255) NOT NULL COMMENT 'Rate code',
+  `rate_name` varchar(255) NOT NULL COMMENT 'Rate bucket name',
+  `rate_counts` int(10) unsigned NOT NULL COMMENT 'Total number of Tokens allowed',
+  `rate_seconds` int(10) unsigned NOT NULL COMMENT 'Rate timing in Seconds',
+  PRIMARY KEY (`rate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_rates`
+--
+
+LOCK TABLES `hello_rates` WRITE;
+/*!40000 ALTER TABLE `hello_rates` DISABLE KEYS */;
+INSERT INTO `hello_rates` VALUES ('A0067542-162B-DAFC-510B-07BE4DFCE111','R1','6 tokens per minute',1,10),('A0067542-162B-DAFC-510B-07BE4DFCE112','R2','15 tokens per minute',5,20),('A0067542-162B-DAFC-510B-07BE4DFCE113','R3','40 tokens per minute',20,30),('A0067542-162B-DAFC-510B-07BE4DFCE114','R4','53 tokens per minute',40,45),('A0067542-162B-DAFC-510B-07BE4DFCE115','R5','100 tokens per minute',100,60),('A0067542-162B-DAFC-510B-07BE4DFCE116','R6','200 tokens per minute',400,120),('A0067542-162B-DAFC-510B-07BE4DFCE117','R7','333 tokens per minute',1000,180);
+/*!40000 ALTER TABLE `hello_rates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_tokens`
+--
+
+DROP TABLE IF EXISTS `hello_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_tokens` (
+  `token_id` varchar(255) NOT NULL COMMENT 'Token ID/Code',
+  `consumer_id` varchar(255) NOT NULL,
+  `token_ip` varchar(255) NOT NULL COMMENT 'Token IP Address',
+  `token_isp` varchar(255) NOT NULL COMMENT 'Token ISP',
+  `created_on` datetime NOT NULL COMMENT 'Created On',
+  `expires_on` datetime NOT NULL COMMENT 'Validity',
+  PRIMARY KEY (`token_id`),
+  KEY `consumer_id` (`consumer_id`),
+  CONSTRAINT `hello_tokens_ibfk_1` FOREIGN KEY (`consumer_id`) REFERENCES `hello_consumers` (`consumer_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_tokens`
+--
+
+LOCK TABLES `hello_tokens` WRITE;
+/*!40000 ALTER TABLE `hello_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hello_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_tokens_usages`
+--
+
+DROP TABLE IF EXISTS `hello_tokens_usages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_tokens_usages` (
+  `usage_id` varchar(255) NOT NULL COMMENT 'Use ID',
+  `token_id` varchar(255) NOT NULL COMMENT 'Token ID',
+  `accessed_on` datetime NOT NULL COMMENT 'Accessed On',
+  PRIMARY KEY (`usage_id`),
+  KEY `token_id` (`token_id`),
+  CONSTRAINT `hello_tokens_usages_ibfk_1` FOREIGN KEY (`token_id`) REFERENCES `hello_tokens` (`token_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_tokens_usages`
+--
+
+LOCK TABLES `hello_tokens_usages` WRITE;
+/*!40000 ALTER TABLE `hello_tokens_usages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hello_tokens_usages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_users`
+--
+
+DROP TABLE IF EXISTS `hello_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_users` (
+  `user_id` varchar(255) NOT NULL COMMENT 'User ID',
+  `user_username` varchar(255) NOT NULL COMMENT 'Unique User Name',
+  `user_password` varchar(255) NOT NULL COMMENT 'User Password',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_users`
+--
+
+LOCK TABLES `hello_users` WRITE;
+/*!40000 ALTER TABLE `hello_users` DISABLE KEYS */;
+INSERT INTO `hello_users` VALUES ('FB9F33F8-5F6E-4EA9-0754-AE809B536B67','E0FD27BF-4C3A-6295-2C2C-28025ABCF24F','3FBF36FD-4E31-403B-F6CB-DD8878757CA7');
+/*!40000 ALTER TABLE `hello_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hello_users_applications`
+--
+
+DROP TABLE IF EXISTS `hello_users_applications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hello_users_applications` (
+  `user_id` varchar(255) NOT NULL COMMENT 'User ID',
+  `application_id` varchar(255) NOT NULL COMMENT 'Application ID',
+  `rate_id` varchar(255) NOT NULL COMMENT 'Rate ID',
+  `created_on` datetime NOT NULL COMMENT 'Created On',
+  `expires_on` datetime NOT NULL COMMENT 'Validity',
+  PRIMARY KEY (`user_id`,`application_id`),
+  KEY `application_id` (`application_id`),
+  KEY `rate_id` (`rate_id`),
+  CONSTRAINT `hello_users_applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `hello_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `hello_users_applications_ibfk_2` FOREIGN KEY (`application_id`) REFERENCES `hello_applications` (`application_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `hello_users_applications_ibfk_3` FOREIGN KEY (`rate_id`) REFERENCES `hello_rates` (`rate_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hello_users_applications`
+--
+
+LOCK TABLES `hello_users_applications` WRITE;
+/*!40000 ALTER TABLE `hello_users_applications` DISABLE KEYS */;
+INSERT INTO `hello_users_applications` VALUES ('FB9F33F8-5F6E-4EA9-0754-AE809B536B67','6C1BC652-DE0A-7D6C-88E3-E49810332F3B','A0067542-162B-DAFC-510B-07BE4DFCE111','2017-04-28 19:45:46','2017-05-05 19:45:46');
+/*!40000 ALTER TABLE `hello_users_applications` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'awesome_hello'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-05-27 19:50:59

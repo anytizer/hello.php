@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MySql" id="Project_27b2ba3" template="Default" database="MySql" >
+	<schema name="awesome_hello" catalogname="awesome_hello" >
+		<table name="hello_applications" >
+			<column name="application_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Application ID]]></comment>
+			</column>
+			<column name="application_name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Application Name]]></comment>
+			</column>
+			<index name="pk_hello_applications" unique="PRIMARY_KEY" >
+				<column name="application_id" />
+			</index>
+		</table>
+		<table name="hello_consumers" >
+			<column name="consumer_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Consumer ID]]></comment>
+			</column>
+			<column name="application_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Application ID]]></comment>
+			</column>
+			<column name="consumer_key" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Consumer Key]]></comment>
+			</column>
+			<column name="consumer_secret" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Consumer Secret]]></comment>
+			</column>
+			<column name="consumer_name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Consumer Identifier Name]]></comment>
+			</column>
+			<index name="pk_hello_consumers" unique="PRIMARY_KEY" >
+				<column name="consumer_id" />
+			</index>
+			<index name="application_id" unique="NORMAL" >
+				<column name="application_id" />
+			</index>
+			<index name="consumer_key" unique="UNIQUE" >
+				<column name="consumer_key" />
+			</index>
+			<fk name="hello_consumers_ibfk_1" to_schema="awesome_hello" to_table="hello_applications" delete_action="cascade" update_action="cascade" >
+				<fk_column name="application_id" pk="application_id" />
+			</fk>
+		</table>
+		<table name="hello_rates" >
+			<column name="rate_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Rate ID]]></comment>
+			</column>
+			<column name="rate_code" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Rate code]]></comment>
+			</column>
+			<column name="rate_name" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Rate bucket name]]></comment>
+			</column>
+			<column name="rate_counts" type="int" length="10" decimal="0" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[Total number of Tokens allowed]]></comment>
+			</column>
+			<column name="rate_seconds" type="int" length="10" decimal="0" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[Rate timing in Seconds]]></comment>
+			</column>
+			<index name="pk_hello_rates" unique="PRIMARY_KEY" >
+				<column name="rate_id" />
+			</index>
+		</table>
+		<table name="hello_tokens" >
+			<column name="token_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Token ID/Code]]></comment>
+			</column>
+			<column name="token_ip" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Token IP Address]]></comment>
+			</column>
+			<column name="token_isp" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Token ISP]]></comment>
+			</column>
+			<column name="created_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
+				<comment><![CDATA[Created On]]></comment>
+			</column>
+			<column name="expires_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
+				<comment><![CDATA[Validity]]></comment>
+			</column>
+			<column name="consumer_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<index name="pk_hello_tokens" unique="PRIMARY_KEY" >
+				<column name="token_id" />
+			</index>
+			<index name="consumer_id" unique="NORMAL" >
+				<column name="consumer_id" />
+			</index>
+			<fk name="hello_tokens_ibfk_1" to_schema="awesome_hello" to_table="hello_consumers" delete_action="cascade" update_action="cascade" >
+				<fk_column name="consumer_id" pk="consumer_id" />
+			</fk>
+		</table>
+		<table name="hello_tokens_usages" >
+			<column name="usage_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Use ID]]></comment>
+			</column>
+			<column name="token_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Token ID]]></comment>
+			</column>
+			<column name="accessed_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
+				<comment><![CDATA[Accessed On]]></comment>
+			</column>
+			<index name="pk_hello_tokens_usages" unique="PRIMARY_KEY" >
+				<column name="usage_id" />
+			</index>
+			<index name="token_id" unique="NORMAL" >
+				<column name="token_id" />
+			</index>
+			<fk name="hello_tokens_usages_ibfk_1" to_schema="awesome_hello" to_table="hello_tokens" delete_action="cascade" update_action="cascade" >
+				<fk_column name="token_id" pk="token_id" />
+			</fk>
+		</table>
+		<table name="hello_users" >
+			<column name="user_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[User ID]]></comment>
+			</column>
+			<column name="user_username" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Unique User Name]]></comment>
+			</column>
+			<column name="user_password" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[User Password]]></comment>
+			</column>
+			<index name="pk_hello_users" unique="PRIMARY_KEY" >
+				<column name="user_id" />
+			</index>
+		</table>
+		<table name="hello_users_applications" >
+			<column name="user_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[User ID]]></comment>
+			</column>
+			<column name="application_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Application ID]]></comment>
+			</column>
+			<column name="rate_id" type="varchar" length="255" decimal="0" jt="12" mandatory="y" >
+				<comment><![CDATA[Rate ID]]></comment>
+			</column>
+			<column name="created_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
+				<comment><![CDATA[Created On]]></comment>
+			</column>
+			<column name="expires_on" type="datetime" length="19" decimal="0" jt="93" mandatory="y" >
+				<comment><![CDATA[Validity]]></comment>
+			</column>
+			<index name="pk_hello_users_applications" unique="PRIMARY_KEY" >
+				<column name="user_id" />
+				<column name="application_id" />
+			</index>
+			<index name="application_id" unique="NORMAL" >
+				<column name="application_id" />
+			</index>
+			<index name="rate_id" unique="NORMAL" >
+				<column name="rate_id" />
+			</index>
+			<fk name="hello_users_applications_ibfk_2" to_schema="awesome_hello" to_table="hello_applications" delete_action="cascade" update_action="cascade" >
+				<fk_column name="application_id" pk="application_id" />
+			</fk>
+			<fk name="hello_users_applications_ibfk_3" to_schema="awesome_hello" to_table="hello_rates" delete_action="cascade" update_action="cascade" >
+				<fk_column name="rate_id" pk="rate_id" />
+			</fk>
+			<fk name="hello_users_applications_ibfk_1" to_schema="awesome_hello" to_table="hello_users" delete_action="cascade" update_action="cascade" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="MySql" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.40-bin.jar" driver_desc="Standard" host="localhost" port="3306" instance="awesome_hello" user="awesome" passwd="YXdlc29tZQ==" />
+	<layout name="Default Layout" id="Layout_2449333" show_relation="columns" >
+		<entity schema="awesome_hello" name="hello_users" color="bfd4f5" x="255" y="45" />
+		<entity schema="awesome_hello" name="hello_rates" color="bfd4f5" x="405" y="255" />
+		<entity schema="awesome_hello" name="hello_tokens" color="c8f5bf" x="45" y="480" />
+		<entity schema="awesome_hello" name="hello_tokens_usages" color="c8f5bf" x="240" y="480" />
+		<entity schema="awesome_hello" name="hello_users_applications" color="bfd4f5" x="180" y="255" />
+		<entity schema="awesome_hello" name="hello_applications" color="c8f5bf" x="90" y="45" />
+		<entity schema="awesome_hello" name="hello_consumers" color="c1d8ee" x="45" y="255" />
+	</layout>
+	<layout name="Sample Layout with Groups" id="Layout_4b23509" show_relation="columns" >
+		<entity schema="awesome_hello" name="hello_applications" color="c8f5bf" x="600" y="195" />
+		<entity schema="awesome_hello" name="hello_rates" color="bfd4f5" x="240" y="195" />
+		<entity schema="awesome_hello" name="hello_tokens" color="c8f5bf" x="435" y="195" />
+		<entity schema="awesome_hello" name="hello_tokens_usages" color="c8f5bf" x="600" y="390" />
+		<entity schema="awesome_hello" name="hello_users" color="bfd4f5" x="240" y="375" />
+		<entity schema="awesome_hello" name="hello_users_applications" color="bfd4f5" x="45" y="195" />
+		<callout x="45" y="75" pointer="NO" >
+			<comment><![CDATA[You may create multiple layouts with the same or different tables.
+Layouts will be saved to project file. 
+Double-click any column, foreign key or table headers to edit.]]></comment>
+		</callout>
+		<group name="hello_users_applications" color="ecf0f7" >
+			<entity schema="awesome_hello" name="hello_users_applications" />
+			<entity schema="awesome_hello" name="hello_rates" />
+			<entity schema="awesome_hello" name="hello_users" />
+		</group>
+		<group name="hello_tokens" color="eef7ec" >
+			<entity schema="awesome_hello" name="hello_tokens" />
+			<entity schema="awesome_hello" name="hello_applications" />
+			<entity schema="awesome_hello" name="hello_tokens_usages" />
+		</group>
+	</layout>
+	<layout name="Sample Layout with Relational Data Browse" id="Layout_4c7e3f3" show_relation="columns" >
+		<entity schema="awesome_hello" name="hello_applications" color="c8f5bf" x="600" y="45" />
+		<entity schema="awesome_hello" name="hello_rates" color="bfd4f5" x="240" y="45" />
+		<entity schema="awesome_hello" name="hello_tokens" color="c8f5bf" x="435" y="45" />
+		<entity schema="awesome_hello" name="hello_tokens_usages" color="c8f5bf" x="600" y="240" />
+		<entity schema="awesome_hello" name="hello_users" color="bfd4f5" x="240" y="225" />
+		<entity schema="awesome_hello" name="hello_users_applications" color="bfd4f5" x="45" y="45" />
+		<browser id="Browse_19edf88" name="Sample Relational Data Browse" confirm_updates="y" >
+			<browse_table schema="awesome_hello" entity="hello_users_applications" x="10" y="10" width="400" height="300" >
+				<browse_table schema="awesome_hello" entity="hello_applications" fk="hello_users_applications_ibfk_2" x="420" y="10" width="400" height="300" record_view="y" />
+			</browse_table>
+		</browser>
+	</layout>
+</project>
