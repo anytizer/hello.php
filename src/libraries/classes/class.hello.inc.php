@@ -54,13 +54,13 @@ class hello
     {
         $db = database();
 
-        $insert_sql="INSERT IGNORE INTO hello_consumers VALUES(:consumer_id, :application_id, :consumer_key, :consumer_secret, :consumer_name);";
+        $insert_sql="INSERT IGNORE INTO hello_consumers VALUES(:id, :application, :key, :secret, :name);";
         $statement = $db->prepare($insert_sql);
-        $statement->bindParam(":consumer_id", $consumer->id);
-        $statement->bindParam(":application_id", $consumer->application);
-        $statement->bindParam(":consumer_key", $consumer->key);
-        $statement->bindParam(":consumer_secret", $consumer->secret);
-        $statement->bindParam(":consumer_name", $consumer->name);
+        $statement->bindParam(":id", $consumer->id);
+        $statement->bindParam(":application", $consumer->application);
+        $statement->bindParam(":key", $consumer->key);
+        $statement->bindParam(":secret", $consumer->secret);
+        $statement->bindParam(":name", $consumer->name);
 
         $success = $statement->execute();
         return $success;
@@ -76,13 +76,13 @@ INSERT IGNORE INTO hello_tokens (
   token_ip, token_isp,
   created_on, expires_on
 ) VALUES (
-  :token_id, :application_id,
+  :token_id, :consumer_id,
   :token_ip, :token_isp,
   NOW(), DATE_ADD(NOW(), INTERVAL :duration MINUTE)
 );";
         $statement = $db->prepare($insert_sql);
         $statement->bindParam(":token_id", $token->id);
-        $statement->bindParam(":application_id", $token->application);
+        $statement->bindParam(":consumer_id", $token->consumer);
         $statement->bindParam(":token_ip", $token->ip);
         $statement->bindParam(":token_isp", $token->isp);
         $statement->bindParam(":duration", $token->duration);

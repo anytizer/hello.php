@@ -11,13 +11,12 @@ class HelloTokenTest extends TestCase
         $hello = new hello();
 
         $token = new token();
-        $token->id = "";
-        $token->consumer = "";
-        $token->ip = "";
-        $token->isp = "";
+        $token->id = "C67656D5-F1B6-249C-DAB5-45FCCC3C56FD";
+        $token->consumer = "84DEAA52-2ACF-22F1-6943-55985444DB19";
+        $token->ip = "127.0.0.1";
+        $token->isp = "localhost";
 
-        $hello->create_token($token);
-
-        $this->assertTrue(false);
+        $success = $hello->create_token($token);
+        $this->assertTrue($success);
     }
 }

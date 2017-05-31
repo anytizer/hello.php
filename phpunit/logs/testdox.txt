@@ -3,10 +3,10 @@ tests\HelloApplication
  [x] Create application user
 
 tests\HelloConsumer
- [ ] Create consumer
+ [x] Create consumer
 
 tests\HelloToken
- [ ] Create token
+ [x] Create token
 
 tests\HelloUser
  [x] Create user
