@@ -1,6 +1,13 @@
-tests\Hello
- [ ] Create user
- [ ] Create application
- [ ] Create application user
+tests\HelloApplication
+ [x] Create application
+ [x] Create application user
+
+tests\HelloConsumer
+ [ ] Create consumer
+
+tests\HelloToken
  [ ] Create token
+
+tests\HelloUser
+ [x] Create user
 

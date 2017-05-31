@@ -1,5 +1,6 @@
 <?php
 namespace common;
+use dtos\rates;
 
 class rate_limiter
 {

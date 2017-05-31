@@ -1,10 +1,9 @@
 <?php
 namespace dtos;
 
-class consumer
+class application
 {
     public $id;
-    public $application;
     public $key;
     public $secret;
     public $name;

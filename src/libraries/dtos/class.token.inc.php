@@ -1,11 +1,16 @@
 <?php
 namespace dtos;
 
-class registered_token
+class token
 {
     public $id;
+
+    public $consumer;
     public $ip;
     public $isp;
+
     public $created;
-    public $expires;
+    public $expiry;
+
+    public $duration;
 }

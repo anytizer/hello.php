@@ -1,11 +1,23 @@
 <?php
 namespace tests;
 use common\hello;
+use dtos\token;
 use PHPUnit\Framework\TestCase;
 
-class HelloApplicationTest extends TestCase
-public function testCreateToken()
+class HelloTokenTest extends TestCase
 {
-    $hello = new hello();
-    $hello->create_applicaton_token();
+    public function testCreateToken()
+    {
+        $hello = new hello();
+
+        $token = new token();
+        $token->id = "";
+        $token->consumer = "";
+        $token->ip = "";
+        $token->isp = "";
+
+        $hello->create_token($token);
+
+        $this->assertTrue(false);
+    }
 }

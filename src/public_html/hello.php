@@ -3,6 +3,7 @@ namespace front;
 
 require_once("../libraries/inc.config.php");
 
+use common\hello;
 use PDO;
 use common\guid;
 use common\envelope;
@@ -29,6 +30,7 @@ WHERE
   consumer_key=:consumer_key
   AND consumer_secret=:consumer_secret
 LIMIT 1;";
+$db = database();
 $statement = $db->prepare($select_consumer_sql);
 $statement->bindParam(":consumer_key", $consumer["key"]);
 $statement->bindParam(":consumer_secret", $consumer["secret"]);
@@ -55,23 +57,9 @@ else
         "token" => $token["token_id"],
     );
 
-    $insert_sql = "
-INSERT INTO hello_tokens (
-  token_id, consumer_id,
-  token_ip, token_isp,
-  created_on, expires_on
-) VALUES (
-  :token_id, :application_id,
-  :token_ip, :token_isp,
-  NOW(), DATE_ADD(NOW(), INTERVAL :duration MINUTE)
-);";
-    $statement = $db->prepare($insert_sql);
-    $statement->bindParam(":token_id", $token["token_id"]);
-    $statement->bindParam(":application_id", $token["application_id"]);
-    $statement->bindParam(":token_ip", $token["token_ip"]);
-    $statement->bindParam(":token_isp", $token["token_isp"]);
-    $statement->bindParam(":duration", $token["duration"]);
-    $statement->execute();
+    $hello = new hello();
+    $hello->create_token($token);
+
 
     $envelope->found($output);
 }
